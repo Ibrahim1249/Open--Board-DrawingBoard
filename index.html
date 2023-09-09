@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            margin: 0px;
+        }
+
+        .fa-solid {
+            font-size: 2rem;
+            margin-left: 30px;
+            margin-right: 30px;
+        }
+
+        .red {
+            background-color: lightpink;
+            height: 35px;
+            width: 35px;
+            /* curve */
+            border-radius: 50%;
+        }
+
+        .green {
+            background-color: lightgreen;
+            height: 35px;
+            width: 35px;
+            border-radius: 50%
+        }
+
+        .blue {
+            background-color: lightblue;
+            height: 35px;
+            width: 35px;
+            border-radius: 50%;
+        }
+
+        .icon-pallet {
+            height: 50px;
+            width: 800px;
+            background-color: rgb(99, 93, 93);
+            margin-left: 20rem;
+            margin-top: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-evenly;
+
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css ">
+
+</head>
+
+<body>
+    <div class="icon-pallet">
+        <!-- this will give kindof a drawing board -->
+        <i class="fa-solid fa-square"></i>
+        <i class="fa-solid fa-grip-lines-vertical"></i>
+        <div class="red"></div>
+        <div class="green"></div>
+        <div class="blue"></div>
+    </div>
+    <canvas></canvas>
+</body>
+<!-- script is used to injet js in html -->
+<!-- <script>
+    //  rectange will be drawn with this size 
+    // tools.fillStyle = "green"
+    // tools.fillRect(10, 30, 200, 200);
+    // tools.strokeStyle = "blue";
+    // // this will draw a boundaris to rectangle
+    // tools.strokeRect(50, 50, 200, 200);
+    // tools.fillStyle = "yellow"
+    // tools.fillRect(40, 40, 100, 100);
+
+    let canvasBoard = document.querySelector("canvas");
+    let body = document.querySelector("body");
+    let rectTool = document.querySelector(".fa-square");
+    let lineTool = document.querySelector(".fa-grip-lines-vertical");
+    let redcolor = document.querySelector(".red");
+    let greenColor = document.querySelector(".green");
+    let blueColor = document.querySelector(".blue");
+    let currTool = "rectTool";
+    let boardTop = canvasBoard.getBoundingClientRect().top;
+    //console.log(canvasBoard.getBoundingClientRect());
+    let ix, iy, fx, fy;
+    //  this is used beacuse ny default the side of canvas in small 
+    canvasBoard.height = window.innerHeight;
+    canvasBoard.width = window.innerWidth;
+
+
+
+</script>
+//color change and tools change 
+<script>
+    //  this is give you tool to draw on canvasBoard eg. pen color eraser etc 
+    let tools = canvasBoard.getContext("2d");
+    redcolor.addEventListener("click", function () {
+        tools.strokeStyle = "lightpink";
+    })
+    greenColor.addEventListener("click", function () {
+        tools.strokeStyle = "lightgreen";
+    })
+    blueColor.addEventListener("click", function () {
+        tools.strokeStyle = "lightblue";
+    })
+    // tool change logic
+    rectTool.addEventListener("click", function () {
+        currTool = "rectTool";
+    });
+    lineTool.addEventListener("click", function () {
+        currTool = "lineTool";
+    });
+
+</script>
+//draw logic  
+<script>
+    // press on the screen
+    body.addEventListener("mousedown", function (e) {
+        //alert("mouse was press on body!!");
+        // console.log(e);
+        // let xPos = e.clientX;
+        // let yPos = e.clientY
+        // console.log(xPos, yPos);
+        ix = e.clientX;
+        iy = e.clientY - boardTop;
+
+    });
+
+    body.addEventListener("mouseup", function (e) {
+        //alert("mouse was lifted!!");
+        // console.log(e);
+        fx = e.clientX;
+        fy = e.clientY - boardTop;
+        let width = fx - ix;
+        let height = fy - iy;
+        if (currTool == "rectTool") {
+            tools.strokeRect(ix, iy, width, height);
+        } else {
+            tools.beginPath();
+            tools.moveTo(ix, iy);
+            tools.lineTo(fx, fy);
+            tools.stroke();
+            console.log("line tool is click");
+        }
+    })
+</script> -->
+
+<script>
+     let canvasBoard = document.querySelector("canvas");
+    let body = document.querySelector("body");
+    let boardTop = canvasBoard.getBoundingClientRect().top;
+    let ix, iy, fx, fy;
+    canvasBoard.height = window.innerHeight;
+    canvasBoard.width = window.innerWidth;
+    let tools = canvasBoard.getContext("2d");
+    let drawingMode=false;
+//    body.addEventListener("mousedown",function(e){
+//       ix=e.clientX;
+//       iy=e.clientY;
+//    });
+body.addEventListener("mousedown",function(e){
+    tools.beginPath();
+    tools.moveTo(e.clientX,e.clientY-boardTop);
+    drawingMode=true;
+});
+body.addEventListener("mouseup",function(e){
+    drawingMode=false;
+});
+   body.addEventListener("mousemove",function(e){
+    if(drawingMode==false){
+        return;
+    }else{
+    fx=e.clientX;
+    fy=e.clientY-boardTop;
+    tools.lineTo(fx,fy);
+    tools.stroke();
+    ix=fx;
+    iy=fy;
+    }
+   })
+</script>
+
+</html>
